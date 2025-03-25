@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VS Studio - Streaming</title>
+  <script>
+    // Check login state
+    if (!sessionStorage.getItem("loggedIn")) {
+        alert("Access denied! Please log in first.");
+        window.location.href = "login.html"; // Redirect to login page
+    }
+</script>
+  <link rel="stylesheet" href="styles2.css"> <!-- Base CSS -->
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">VS Studio</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="movie-list.html">Movie List.....</a></li>
+    </ul>
+  </nav>
+
+  <!-- Streaming Section -->
+  <section class="streaming-section">
+    <h1 id="streaming-title">Now Streaming: Movie Title</h1> <!-- Dynamic title -->
+    <div class="streaming-buttons">
+      <button class="download-btn" onclick="downloadMovie()">Download</button> <!-- Updated button -->
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>&copy; 2025 VS Studio. All rights reserved.</p>
+  </footer>
+
+  <script src="streaming.js"></script> <!-- Updated JavaScript file -->
+  <script>
+    // Function to handle dynamic download redirection
+    async function downloadMovie() {
+      try {
+        // Fetch base URL from url.txt
+        const response = await fetch('url.txt');
+        if (!response.ok) {
+          throw new Error('Failed to fetch base URL from url.txt');
+        }
+        const baseUrl = await response.text();
+
+        // Get the movie name dynamically from the streaming title
+        const streamingTitle = document.getElementById('streaming-title').textContent;
+        const movieName = streamingTitle.replace('Now Streaming: ', '').trim();
+
+        // Redirect to the constructed download URL
+        const downloadUrl = `${baseUrl}/${movieName}`;
+        window.location.href = downloadUrl;
+      } catch (error) {
+        console.error('Error in downloadMovie:', error);
+        alert('Unable to process the download. Please try again later.');
+      }
+    }
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VS Studio</title>
+  <script>
+    // Check login state
+    if (!sessionStorage.getItem("loggedIn")) {
+        alert("Access denied! Please log in first.");
+        window.location.href = "login.html"; // Redirect to login page
+    }
+</script>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* Category images displayed horizontally */
+    .category-images {
+      display: flex;
+      flex-direction: row; /* Arrange images horizontally */
+      justify-content: center; /* Center-align images */
+      gap: 20px; /* Space between images */
+    }
+
+    .category-images img {
+      width: 200px; /* Custom width for images */
+      height: auto; /* Maintain aspect ratio */
+      object-fit: cover; /* Crop excess parts without distortion */
+      border-radius: 8px; /* Optional rounded corners */
+    }
+
+    /* Dynamic movie grid layout */
+    .movie-grid {
+      display: flex;
+      flex-wrap: wrap; /* Allow wrapping if there are too many cards */
+      justify-content: center; /* Center-align the grid */
+      gap: 20px; /* Space between cards */
+    }
+
+    .movie-card img {
+      width: 200px; /* Custom width for images */
+      height: auto; /* Maintain aspect ratio */
+      border-radius: 8px; /* Optional rounded corners */
+    }
+
+    h2 {
+      margin: 10px 0; /* Space around section titles */
+    }
+
+    /* Dark Mode (default) */
+    body {
+      background-color: #121212; /* Dark background */
+      color: #ffffff; /* Light text */
+    }
+
+    .navbar {
+      background-color: #333; /* Dark navbar */
+      color: #ffffff; /* Navbar text color */
+    }
+
+    /* Light Mode */
+    body.light-mode {
+      background-color: #ffffff; /* Light background */
+      color: #000000; /* Dark text */
+    }
+
+    .navbar.light-mode {
+      background-color: #f9f9f9; /* Light navbar */
+      color: #000000; /* Navbar text color */
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">VS Studio</div>
+    <div class="search-container">
+      <input type="text" id="search-bar" placeholder="Search for movies..." />
+      <button id="search-btn">Search</button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero-section">
+    <h1 class="hero-title">Stream the World’s Best Movies</h1>
+    <p class="hero-subtitle">Discover, Explore, and Watch from a World of Genres</p>
+    <a href="moive_list.html">
+      <button class="cta-button">Start Watching</button>
+    </a>
+  </header>
+
+  <!-- Categories Section -->
+  <section class="categories-section" id="categories">
+    <h1 class="categories-title">Movies by Categories</h1>
+    <div class="category">
+      <h2>Comedy</h2>
+      <div class="category-images" id="comedyGrid">
+        <!-- Comedy movies will be dynamically populated here -->
+      </div>
+    </div>
+    <div class="category">
+      <h2>Action</h2>
+      <div class="category-images" id="actionGrid">
+        <!-- Action movies will be dynamically populated here -->
+      </div>
+    </div>
+    <div class="category">
+      <h2>Science</h2>
+      <div class="category-images" id="scienceGrid">
+        <!-- Science movies will be dynamically populated here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Details Section -->
+  <section class="contact-details-section">
+    <h2>Contact Us</h2>
+    <p>Email: contact@ottplatform.com</p>
+    <p>Phone: +123-456-7890</p>
+    <p>Address: 123 OTT Lane, Movie City, World</p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="mode-toggle-container">
+      <label class="switch">
+        <input type="checkbox" id="mode-toggle">
+        <span class="slider round"></span>
+      </label>
+      <span id="mode-label">Dark Mode</span>
+    </div>
+  </footer>
+
+  <!-- JavaScript Integration -->
+  <script>
+    document.addEventListener("DOMContentLoaded", async function () {
+      const imagePath = "popular/images/"; // Folder for movie images
+      const popularPath = "popular/"; // Folder containing genre JSONs
+      const categories = {
+        comedy: document.getElementById("comedyGrid"),
+        action: document.getElementById("actionGrid"),
+        science: document.getElementById("scienceGrid"),
+      };
+
+      // Fetch and display movies for each category
+      for (const genre in categories) {
+        const response = await fetch(`${popularPath}${genre}/${genre}.json`);
+        const movies = await response.json();
+        const categoryGrid = categories[genre];
+
+        movies.forEach((movie) => {
+          const movieCard = document.createElement("div");
+          movieCard.classList.add("movie-card");
+          movieCard.setAttribute(
+            "onclick",
+            `navigateToStreaming('${movie.name}')`
+          );
+
+          movieCard.innerHTML = `
+            <img src="${imagePath}${movie.image}" alt="${movie.name}">
+          `;
+
+          categoryGrid.appendChild(movieCard);
+        });
+      }
+
+      // Search bar functionality
+      const searchBar = document.getElementById("search-bar");
+      const searchButton = document.getElementById("search-btn");
+
+      searchButton.addEventListener("click", async () => {
+        const query = searchBar.value.trim().toLowerCase(); // Get user input and make it lowercase
+        if (!query) {
+          alert("Please enter a movie name to search.");
+          return;
+        }
+
+        // List of JSON files to search
+        const jsonFiles = ["comedy/comedy.json", "action/action.json", "science/science.json"];
+        let found = false;
+
+        for (const file of jsonFiles) {
+          try {
+            const response = await fetch(`${popularPath}${file}`);
+            const movies = await response.json();
+
+            // Search for a matching movie
+            const movie = movies.find((m) => m.name.toLowerCase() === query);
+            if (movie) {
+              found = true;
+              window.location.href = `streaming.html?movie=${movie.name}`; // Redirect to the streaming page
+              break;
+            }
+          } catch (error) {
+            console.error(`Error fetching ${file}:`, error);
+          }
+        }
+
+        if (!found) {
+          alert("Movie not found.");
+        }
+      });
+
+      // Dark/Light mode functionality
+      const modeToggle = document.getElementById("mode-toggle");
+      const body = document.body;
+      const modeLabel = document.getElementById("mode-label");
+
+      modeToggle.addEventListener("change", () => {
+        if (modeToggle.checked) {
+          // Light mode activation
+          body.classList.add("light-mode");
+          modeLabel.textContent = "Light Mode";
+        } else {
+          // Dark mode activation
+          body.classList.remove("light-mode");
+          modeLabel.textContent = "Dark Mode";
+        }
+      });
+    });
+
+    // Navigation function
+    function navigateToStreaming(movieName) {
+      window.location.href = `streaming.html?movie=${movieName}`;
+    }
+  </script>
+</body>
+</html>

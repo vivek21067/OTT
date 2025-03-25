@@ -1,0 +1,25 @@
+project/
+├── index.html          // Main HTML file integrating all features
+├── styles.css          // CSS file for styling the platform
+├── script.js           // JavaScript for dynamic functionality
+├── popular/            // Main directory for movies and categories
+│   ├── movies.json     // Consolidated movie list JSON (optional)
+│   ├── comedy/         // Comedy category
+│   │   ├── comedy.json // JSON file with comedy movie details
+│   │   ├── hello.mp4   // Comedy movie video 1
+│   │   ├── laugh.mp4   // Comedy movie video 2
+│   ├── action/         // Action category
+│   │   ├── action.json // JSON file with action movie details
+│   │   ├── fight.mp4   // Action movie video 1
+│   │   ├── hero.mp4    // Action movie video 2
+│   ├── science/        // Science category
+│   │   ├── science.json // JSON file with science movie details
+│   │   ├── discovery.mp4 // Science movie video 1
+│   │   ├── experiment.mp4 // Science movie video 2
+├── popular/images/     // Directory for movie images
+│   ├── hello.jpg       // Comedy movie image 1
+│   ├── laugh.jpg       // Comedy movie image 2
+│   ├── fight.jpg       // Action movie image 1
+│   ├── hero.jpg        // Action movie image 2
+│   ├── discovery.jpg   // Science movie image 1
+│   ├── experiment.jpg  // Science movie image 2

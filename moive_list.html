@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VS Studio - Movie List</title>
+  <script>
+    // Check login state
+    if (!sessionStorage.getItem("loggedIn")) {
+        alert("Access denied! Please log in first.");
+        window.location.href = "login.html"; // Redirect to login page
+    }
+</script>
+  <link rel="stylesheet" href="styles2.css">
+  <style>
+    /* Category images displayed horizontally */
+    .movie-grid {
+      display: flex;
+      flex-direction: row; /* Arrange images horizontally */
+      justify-content: center; /* Center-align images */
+      gap: 20px; /* Space between images */
+    }
+
+    .movie-grid img {
+      width: 200px; /* Custom width for images */
+      height: auto; /* Maintain aspect ratio */
+      object-fit: cover; /* Crop excess parts without distortion */
+      border-radius: 8px; /* Optional rounded corners */
+    }
+
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">VS Studio</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="movie-list.html">Movie List.....</a></li>
+    </ul>
+  </nav>
+
+  <section class="movie-list-section">
+    <h1 class="section-title">Available Movies</h1>
+    <div class="movie-grid" id="movieGrid">
+      <!-- Movie cards will be dynamically populated here -->
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>&copy; 2025 VS Studio. All rights reserved.</p>
+  </footer>
+  <script src="script2.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Login Page</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Body Styling */
+        body {
+            background-color: #001F3F; /* Darkest Blue */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Login Container */
+        .login-container {
+            background: #011A33; /* Slightly lighter dark blue */
+            border-radius: 10px;
+            padding: 25px 20px;
+            width: 90%; /* Default width for small screens */
+            max-width: 400px; /* Restrict maximum width for larger screens */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 20px;
+            animation: slideDown 1s ease-in-out;
+        }
+
+        /* Input Groups */
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            width: 100%; /* Ensure inputs are responsive */
+            padding: 10px 40px;
+            background-color: #02284B;
+            border: none;
+            color: #ffffff;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .input-group input::placeholder {
+            color: #b0c4de;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ffffff;
+        }
+
+        /* Button Styling */
+        .login-button {
+            width: 100%;
+            background-color: #007BFF;
+            color: #ffffff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .login-button:hover {
+            background-color: #0056b3; /* Darker hover effect */
+        }
+
+        /* Responsive Design: Media Queries */
+        @media (min-width: 768px) {
+            .login-container {
+                width: 50%; /* Adjust width for tablets and desktops */
+            }
+        }
+
+        @media (max-width: 576px) {
+            .login-container h2 {
+                font-size: 18px; /* Smaller font size for compact screens */
+            }
+
+            .input-group input {
+                font-size: 14px; /* Smaller text for small screens */
+            }
+
+            .login-button {
+                font-size: 14px; /* Adjust button text size */
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form onsubmit="event.preventDefault(); login();">
+            <div class="input-group">
+                <i class="fa fa-user"></i>
+                <input type="text" id="username" placeholder="Username" required>
+            </div>
+            <div class="input-group">
+                <i class="fa fa-lock"></i>
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+            <button class="login-button" type="submit">Login</button>
+        </form>
+    </div>
+
+    <script>
+        function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            // Hardcoded credentials for demonstration
+            if (username === "vivek" && password === "viveksuthar169@") {
+                sessionStorage.setItem("loggedIn", true);
+                alert("Login successful!");
+                window.location.href = "index.html"; // Redirect to home page
+            } else {
+                alert("Invalid username or password!");
+            }
+        }
+    </script>
+
+    <!-- Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
